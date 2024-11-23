@@ -4,7 +4,7 @@ const ProductCard = ({ product }) => {
     return (
         <div className="card h-100">
             <img
-                src={product.image || "https://via.placeholder.com/150"}
+                src={product.image || "https://picsum.photos/300/200"}
                 className="card-img-top"
                 alt={product.name}
             />
