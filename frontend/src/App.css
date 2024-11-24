@@ -1,0 +1,15 @@
+.card-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .card-text {
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  
+  .btn-outline-primary {
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+  }
+  

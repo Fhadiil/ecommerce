@@ -5,15 +5,20 @@ const Logout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    navigate('/login'); // Redirect to the login page
+    // Remove token from localStorage or sessionStorage
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+
+    navigate('/login');
   };
 
   return (
-    <button onClick={handleLogout} className="btn btn-danger">
-      Logout
-    </button>
+    <div className="container mt-5">
+      <h1>You are logged out</h1>
+      <button className="btn btn-primary" onClick={handleLogout}>
+        Go to Login
+      </button>
+    </div>
   );
 };
 

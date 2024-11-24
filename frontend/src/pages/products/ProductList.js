@@ -22,7 +22,7 @@ const ProductList = () => {
 
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/products/");
+        const response = await axios.get("http://localhost:8000/api/categories/");
         setCategories(response.data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -71,9 +71,9 @@ const ProductList = () => {
 
   return (
     <div className="container my-5">
-      <h1 className="text-center">Our Products</h1>
+      <h1 className="text-center mb-4">Our Products</h1>
 
-      <div className="row my-4">
+      <div className="row my-4 align-items-center">
         <div className="col-md-4">
           <select
             className="form-select"
@@ -88,7 +88,7 @@ const ProductList = () => {
             ))}
           </select>
         </div>
-        <div className="col-md-4">
+        <div className="col-md-8">
           <input
             type="text"
             className="form-control"
@@ -102,19 +102,22 @@ const ProductList = () => {
       <div className="row">
         {filteredProducts.map((product) => (
           <div className="col-md-4 mb-4" key={product.id}>
-            <div className="card">
+            <div className="card h-100">
               <img
                 src={product.image}
                 alt={product.name}
                 className="card-img-top"
                 style={{ height: "200px", objectFit: "cover" }}
               />
-              <div className="card-body">
+              <div className="card-body d-flex flex-column">
                 <h5 className="card-title">{product.name}</h5>
-                {/* <p className="card-text">${product}</p> */}
-                <p className="card-text">Category: {product.category.name || "N/A"}</p>
-
-                <a href={`/products/${product.id}`} className="btn btn-primary">
+                <p className="card-text text-muted">
+                  {product.category || "Uncategorized"}
+                </p>
+                <p className="card-text text-primary fw-bold">
+                  ${product.price}
+                </p>
+                <a href={`/products/${product.id}`} className="btn btn-primary mt-auto">
                   View Details
                 </a>
               </div>

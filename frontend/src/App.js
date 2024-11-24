@@ -4,6 +4,7 @@ import AppRoutes from './Routes';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import { Toaster } from 'react-hot-toast';
+import './App.css'
 
 // import './styles/global.css';
 

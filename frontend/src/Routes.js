@@ -7,6 +7,7 @@ import ProductList from './pages/products/ProductList';
 import ProductDetails from './pages/products/ProductDetails';
 import Cart from './pages/products/Cart';
 import Checkout from './pages/products/Checkout';
+import Logout from './components/auth/Logout';
 // import Profile from './pages/Profile';
 // import Dashboard from './pages/Dashboard';
 // import ErrorPage from './pages/ErrorPage';
@@ -16,6 +17,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Logout />} />
       <Route path="/register" element={<Register />} />
       <Route path="/products" element={<ProductList/>} />
       <Route path="/products/:id" element={<ProductDetails/>} />

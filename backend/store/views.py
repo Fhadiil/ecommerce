@@ -50,6 +50,14 @@ def loginAPI(request):
         }, status=status.HTTP_200_OK)
     return Response({'error' : 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def post(request):
+        response = Response({'message':'Logout successfully'})
+        response.delete_cookie('token')
+        return response
+
 
 class ProductListCreateAPI(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
