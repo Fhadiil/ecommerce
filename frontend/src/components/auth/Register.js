@@ -2,6 +2,7 @@ import React , {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import  axios from 'axios';
 import toast from 'react-hot-toast';
+import api from '../../axios';
 
 
 const Register = () => {
@@ -14,7 +15,7 @@ const Register = () => {
 
     const handleRegister = (e)=>{
       e.preventDefault();
-        axios.post("http://127.0.0.1:8000/api/register/", formData)
+        api.post("/register/", formData)
             .then((response) => {
                 console.log("Login successful:", response.data);
                 // Store token in localStorage

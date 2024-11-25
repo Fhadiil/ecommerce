@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import api from "../../axios";
 
 
 const Login = () => {
@@ -14,7 +15,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://127.0.0.1:8000/api/login/", formData)
+        api.post("/login/", formData)
             .then((response) => {
                 console.log("Login successful:", response.data);
                 // Store token in localStorage

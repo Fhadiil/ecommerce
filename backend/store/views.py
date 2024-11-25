@@ -4,11 +4,12 @@ from rest_framework.decorators import api_view
 from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from .serializers import UserSerializer, RegisterSerializer
+from rest_framework.generics import ListAPIView
+from .serializers import UserSerializer, RegisterSerializer, ProductSerializer, ProfileSerializer, OrderSerializer
 from django.contrib.auth import authenticate
-from .models import Product
-from .serializers import ProductSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .models import Product, Profile, Order
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+
 
 # @api_view(['GET'])
 # def getProducts(request):
@@ -51,12 +52,11 @@ def loginAPI(request):
     return Response({'error' : 'Invalid Credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
-    def post(request):
-        response = Response({'message':'Logout successfully'})
-        response.delete_cookie('token')
-        return response
+    def post(self, request):
+        request.user.auth_token.delete() 
+        return Response({"message": "Successfully logged out."}, status=200)
 
 
 class ProductListCreateAPI(APIView):
@@ -101,3 +101,28 @@ class ProductDetailAPI(APIView):
         product = self.get_object(pk)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
+
+    def put(self, request):
+        profile, _ = Profile.objects.get_or_create(user=request.user)
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+class OrderListView(ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)

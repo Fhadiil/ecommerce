@@ -1,24 +1,38 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Logout = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Remove token from localStorage or sessionStorage
-    localStorage.removeItem('token');
-    sessionStorage.removeItem('token');
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      // Call the backend to invalidate the token
+      await axios.post(
+        "http://127.0.0.1:8000/api/logout/",
+        {},
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
 
-    navigate('/login');
+      // Clear the token from localStorage
+      localStorage.removeItem("token");
+
+      // Redirect to login page
+      navigate("/login");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   return (
-    <div className="container mt-5">
-      <h1>You are logged out</h1>
-      <button className="btn btn-primary" onClick={handleLogout}>
-        Go to Login
-      </button>
-    </div>
+    <button onClick={handleLogout} className="btn btn-danger">
+      Logout
+    </button>
   );
 };
 
