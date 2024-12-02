@@ -60,7 +60,7 @@ class LogoutView(APIView):
 
 
 class ProductListCreateAPI(APIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    # permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
         products = Product.objects.all()
