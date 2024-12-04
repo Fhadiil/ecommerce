@@ -1,29 +1,44 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const [user, setUser] = useState({});
   const [orders, setOrders] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [editFormData, setEditFormData] = useState({ username: "", email: "" });
+  const [editFormData, setEditFormData] = useState({
+    username: "",
+    email: "",
+    address: "",
+    phone_number: "",
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       try {
-        const userResponse = await axios.get("http://127.0.0.1:8000/api/profile/", {
-          headers: { Authorization: `Token ${token}` },
-        });
+        const userResponse = await axios.get(
+          "http://127.0.0.1:8000/api/profile/",
+          {
+            headers: { Authorization: `Token ${token}` },
+          }
+        );
+        console.log(userResponse.data);
         setUser(userResponse.data);
         setEditFormData({
           username: userResponse.data.user.username,
           email: userResponse.data.user.email,
+          address: userResponse.data.address,
+          phone_number: userResponse.data.phone_number,
         });
 
-        const ordersResponse = await axios.get("http://127.0.0.1:8000/api/orders/", {
-          headers: { Authorization: `Token ${token}` },
-        });
+        const ordersResponse = await axios.get(
+          "http://127.0.0.1:8000/api/orders/",
+          {
+            headers: { Authorization: `Token ${token}` },
+          }
+        );
         setOrders(ordersResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -47,9 +62,12 @@ const Profile = () => {
         headers: { Authorization: `Token ${token}` },
       });
       setUser({ ...user, user: { ...user.user, ...editFormData } });
+      toast.success("Profile Updated Successfully")
+      console.log(editFormData);
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating profile:", error);
+      toast.error("Error Updating profile")
     }
   };
 
@@ -84,16 +102,57 @@ const Profile = () => {
                   className="form-control"
                 />
               </div>
-              <button type="submit" className="btn btn-success">Save</button>
-              <button type="button" className="btn btn-secondary ms-2" onClick={() => setIsEditing(false)}>Cancel</button>
+              <div className="mb-3">
+                <label>Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={editFormData.address}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              </div>
+              <div className="mb-3">
+                <label>Number</label>
+                <input
+                  type="number"
+                  name="phone_number"
+                  value={editFormData.phone_number}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              </div>
+              <button type="submit" className="btn btn-success">
+                Save
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary ms-2"
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </button>
             </form>
           ) : (
             <div>
-              <p><strong>Username:</strong> {user.user.username}</p>
-              <p><strong>Email:</strong> {user.user.email}</p>
-              <p><strong>Address:</strong> {user.address}</p>
-              <p><strong>Phone Number:</strong> {user.phone_number}</p>
-              <button className="btn btn-primary" onClick={() => setIsEditing(true)}>Edit Profile</button>
+              <p>
+                <strong>Username:</strong> {user.user.username}
+              </p>
+              <p>
+                <strong>Email:</strong> {user.user.email}
+              </p>
+              <p>
+                <strong>Address:</strong> {user.address}
+              </p>
+              <p>
+                <strong>Phone Number:</strong> {user.phone_number}
+              </p>
+              <button
+                className="btn btn-primary"
+                onClick={() => setIsEditing(true)}
+              >
+                Edit Profile
+              </button>
             </div>
           )}
         </div>

@@ -104,7 +104,7 @@ const ProductList = () => {
           <div className="col-md-4 mb-4" key={product.id}>
             <div className="card h-100">
               <img
-                src={product.image}
+                src={`http://127.0.0.1:8000${product.image}`}
                 alt={product.name}
                 className="card-img-top"
                 style={{ height: "200px", objectFit: "cover" }}

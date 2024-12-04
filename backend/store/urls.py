@@ -10,5 +10,4 @@ urlpatterns = [
     path('products/<int:pk>/', views.ProductDetailAPI.as_view(), name='product-detail'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('orders/', views.OrderListView.as_view(), name='orders'),
-
 ]
