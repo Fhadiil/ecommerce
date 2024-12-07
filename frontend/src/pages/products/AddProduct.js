@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const AddProduct = () => {
   const [formData, setFormData] = useState({
@@ -49,8 +50,20 @@ const AddProduct = () => {
         config
       );
       console.log("Product added successfully:", response.data);
+      toast.success('Product added successfully')
+      setFormData({
+        name: "",
+        description: "",
+        price: "",
+        stock: "",
+        category: "",
+      });
+      setImage(null)
     } catch (error) {
-      console.error("Error adding product:", error.response?.data || error.message);
+      console.error(
+        "Error adding product:",
+        error.response?.data || error.message
+      );
     }
   };
 

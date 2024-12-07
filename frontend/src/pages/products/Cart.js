@@ -6,31 +6,23 @@ const Cart = () => {
   const { cart, removeFromCart, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
 
-  const handleCheckout = () => {
-    navigate("/checkout");
-  };
-
   const calculateTotalPrice = () => {
     return cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
   };
 
   return (
     <div className="container my-5">
-      <h1 className="text-center">Your Cart</h1>
-
+      <h1>Your Cart</h1>
       {cart.length === 0 ? (
-        <div className="text-center mt-4">
+        <div className="text-center">
           <p>Your cart is empty!</p>
-          <button
-            className="btn btn-primary"
-            onClick={() => navigate("/")}
-          >
+          <button onClick={() => navigate("/")} className="btn btn-primary">
             Go to Shop
           </button>
         </div>
       ) : (
-        <div>
-          <table className="table table-striped">
+        <>
+          <table className="table">
             <thead>
               <tr>
                 <th>Product</th>
@@ -46,7 +38,7 @@ const Cart = () => {
                   <td>{item.name}</td>
                   <td>${item.price}</td>
                   <td>{item.quantity}</td>
-                  <td>${(item.price * item.quantity).toFixed(2)}</td>
+                  <td>${(item.price * item.quantity)}</td>
                   <td>
                     <button
                       className="btn btn-danger btn-sm"
@@ -59,19 +51,18 @@ const Cart = () => {
               ))}
             </tbody>
           </table>
-
-          <div className="d-flex justify-content-between align-items-center">
-            <h4>Total: ${calculateTotalPrice().toFixed(2)}</h4>
+          <div className="d-flex justify-content-between">
+            <h4>Total: ${calculateTotalPrice()}</h4>
             <div>
-              <button className="btn btn-warning btn-sm me-3" onClick={clearCart}>
+              <button className="btn btn-warning me-2" onClick={clearCart}>
                 Clear Cart
               </button>
-              <button className="btn btn-primary btn-sm" onClick={handleCheckout}>
-                Proceed to Checkout
+              <button className="btn btn-primary" onClick={() => navigate("/checkout")}>
+                Checkout
               </button>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
